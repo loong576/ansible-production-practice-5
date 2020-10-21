@@ -1,0 +1,4 @@
+---
+- hosts: "{{ hostlist }}"
+  roles:
+  - role: splunk

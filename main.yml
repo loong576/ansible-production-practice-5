@@ -1,0 +1,35 @@
+---
+# tasks file for splunk client install 
+# author: loong576
+
+- name: Unarchive client install file 
+  unarchive:
+    src: /tmp/splunk/splunkforwarder-8.0.5-a1a6394cc5ae-Linux-x86_64.tgz 
+    dest: /opt
+    mode: 0755
+    owner: root
+    group: root
+
+- name: copy template file 
+  copy:
+    src: /etc/ansible/roles/splunk/templates/props.conf 
+    dest: /opt/splunkforwarder/etc/system/local 
+    owner: root
+    group: root
+
+- name: modify template file 
+  template:
+    src: /etc/ansible/roles/splunk/templates/inputs.conf 
+    dest: /opt/splunkforwarder/etc/system/local/inputs.conf 
+
+- name: use expect add forward-server 
+  expect:
+    command: /opt/splunkforwarder/bin/splunk add forward-server 10.10.67.50:9997   --accept-license 
+    responses:
+      Do you agree with this license? [y/n]: "y"
+      Please enter an administrator username: "admin"
+      Please enter a new password: "splunk@123!"
+      Please confirm new password: "splunk@123!"
+
+- name: start the client and enable the process 
+  shell: "/opt/splunkforwarder/bin/splunk start;/opt/splunkforwarder/bin/splunk enable boot-start"
