@@ -24,7 +24,7 @@
 
 - name: use expect add forward-server 
   expect:
-    command: /opt/splunkforwarder/bin/splunk add forward-server 10.10.67.50:9997   --accept-license 
+    command: /opt/splunkforwarder/bin/splunk add forward-server xx.xx.xx.xx:9997   --accept-license 
     responses:
       Do you agree with this license? [y/n]: "y"
       Please enter an administrator username: "admin"
